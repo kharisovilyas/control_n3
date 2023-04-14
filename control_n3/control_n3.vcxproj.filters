@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Исходные файлы\sorting">
+      <UniqueIdentifier>{c3f62686-5d89-49c0-82cc-797a088ed34c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\object">
+      <UniqueIdentifier>{9c8ce0c9-232f-4fd4-b728-bb9a92f32788}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\ui">
+      <UniqueIdentifier>{f761ca50-671c-4bc3-b03e-c5775a8d6178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\ui">
+      <UniqueIdentifier>{e487278e-c5c4-4ef3-9b34-78d10307376e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\sorting">
+      <UniqueIdentifier>{a6bd6983-03f8-4fad-bfc5-70676e701dc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\object">
+      <UniqueIdentifier>{0f5b15a4-18af-49ae-ac03-4dd629ecff25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\test">
+      <UniqueIdentifier>{3c02983f-f56c-4756-bad8-25c4953859b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\test">
+      <UniqueIdentifier>{22f7416b-82e0-4733-9da6-0ff285ebf34c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="bubbleSelection.cpp">
+      <Filter>Исходные файлы\sorting</Filter>
+    </ClCompile>
+    <ClCompile Include="insertion.cpp">
+      <Filter>Исходные файлы\sorting</Filter>
+    </ClCompile>
+    <ClCompile Include="shell.cpp">
+      <Filter>Исходные файлы\sorting</Filter>
+    </ClCompile>
+    <ClCompile Include="quickSort.cpp">
+      <Filter>Исходные файлы\sorting</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix.cpp">
+      <Filter>Исходные файлы\object</Filter>
+    </ClCompile>
+    <ClCompile Include="inOutConsole.cpp">
+      <Filter>Исходные файлы\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="correctness.cpp">
+      <Filter>Исходные файлы\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="fileReader.cpp">
+      <Filter>Исходные файлы\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="fillingRandom.cpp">
+      <Filter>Исходные файлы\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Исходные файлы\test</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="matrix.h">
+      <Filter>Файлы заголовков\object</Filter>
+    </ClInclude>
+    <ClInclude Include="sort.h">
+      <Filter>Файлы заголовков\sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="ISort.h">
+      <Filter>Файлы заголовков\sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="ui.h">
+      <Filter>Файлы заголовков\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>Файлы заголовков\test</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

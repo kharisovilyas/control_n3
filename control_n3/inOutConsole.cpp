@@ -1,0 +1,74 @@
+#include "ui.h"
+#include <iostream>
+#include <map>
+
+using namespace ui;
+using namespace std;
+
+
+void printInformOut() {
+	cout << "Вам предлагается ввести исходные данные в файл" << endl;
+	cout << "Используйте пункты меню для навигации в программе, нажмите :" << endl;
+	cout << "[1] - Записать" << endl;
+	cout << "[0] - Не записывать и продолжить выполнение программы" << endl;
+}
+
+void outInitialDataInFile(unique_ptr<Matrix>& matrix) {
+	correctness check{};
+	fileReader fr;
+	printInformOut();
+	bool variant = check.getBool();
+	if (variant == 0) return;
+	fr.fillFile(matrix);
+}
+
+
+void inOutConsole::readConsole(unique_ptr<Matrix>& matrix) {
+	correctness check{};
+	int n = 0, m = 0;
+	int element;
+	cout << "Введите количество строк" << endl;
+	n = check.getIntField();
+	cout << "Введите количество столбцов" << endl;
+	m = check.getIntField();
+	matrix = make_unique<Matrix>(n, m);
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			cout << "Введите [ " << i + 1 << " ][ " << j + 1 << " ] элемент" << endl;
+			element = check.getInt();
+			matrix->setElement(i, j, element);
+		}
+	}
+	outInitialDataInFile(matrix);
+}
+
+void inOutConsole::outConsole(unique_ptr<Matrix>& matrix) const {
+	cout << "Ваша матрица [" << matrix->getRows() << "]x[" << matrix->getColumn() << "] элементов: " << endl;
+	for (int i = 0; i < matrix->getRows(); i++) {
+		for (int j = 0; j < matrix->getColumn(); j++) {
+			cout << matrix->getElement(i, j) << "\t";
+		}
+		cout << endl;
+	}
+}
+
+
+void inOutConsole::outConsole(unique_ptr<Matrix>& matrix, map<string, pair<int, int>>& results) const{
+	cout << "Ваша матрица [" << matrix->getRows() << "]x[" << matrix->getColumn() << "] элементов: " << endl;
+	for (int i = 0; i < matrix->getRows(); i++) {
+		for (int j = 0; j < matrix->getColumn(); j++) {
+			cout << matrix->getElement(i, j) << "\t";
+		}
+		cout << endl;
+	}
+
+	cout << "Сравнительная таблица сортировок:" << endl;
+	cout << "-----------------------------------------------------------------------" << endl;
+	cout << "\tСортировка\t|Количество перестановок|Количество сравнений" << endl;
+	cout << "-----------------------------------------------------------------------" << endl;
+	for (auto& pair : results) {
+		cout << pair.first << "\t|\t" << pair.second.first << "\t\t|\t" << pair.second.second << endl;
+	}
+
+
+}
