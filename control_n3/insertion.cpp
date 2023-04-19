@@ -1,35 +1,28 @@
 #include <iostream>
 #include "sort.h"
+#include <vector>
 
 using namespace sort;
+
+void sortRowByInsert(vector<int>& row, pair<int, int>& counts){
+    int n = static_cast<int>( row.size() );
+    for (int i = 1; i < n; i++) {
+        int key = row[i];
+        int j = i - 1;
+        while (j >= 0 && row[j] > key) {
+            counts.second++;
+            row[j + 1] = row[j];
+            counts.first++;
+            j--;
+        }
+        counts.first++;
+        row[j + 1] = key;
+    }
+}
 
 void insertion::Sort(unique_ptr<Matrix>& matrix) {
     int rows = matrix->getRows();
     int column = matrix->getColumn();
-    for (int i = 0; i < rows; i++) {
-        bool hasEven = false;
-        for (int j = 0; j < column; j++) {
-            int element = matrix->getElement(i, j);
-            if (possibleSort(element)) {
-                hasEven = true;
-                break;
-            }
-        }
-        if (hasEven) {
-            for (int j = 1; j < column; j++) {
-                int key = matrix->getElement(i, j);
-                if (possibleSort(key)) {
-                    int k = j - 1;
-                    while (k >= 0 && possibleSort(matrix->getElement(i, k)) && matrix->getElement(i, k) > key) {
-                        IncrementComparisonCountInThread();
-                        IncrementSwapCountInThread();
-                        matrix->setElement(i, k + 1, matrix->getElement(i, k));
-                        k--;
-                    }
-                    IncrementComparisonCountInThread();
-                    matrix->setElement(i, k + 1, key);
-                }
-            }
-        }
-    }
+    vector<int> row{};
+    sortPossible(matrix, &sortRowByInsert);
 }

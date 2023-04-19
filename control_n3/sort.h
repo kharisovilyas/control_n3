@@ -1,9 +1,15 @@
 #pragma once
 #include "ISort.h"
+#include <map>
 #include "Matrix.h"
 
 
 namespace sort {
+
+	class controlSort {
+	public:
+		void startSort(unique_ptr<Matrix>&, unique_ptr<Matrix>&, map<string, pair<int, int>>&);
+	};
 
 	class bubbleSelection : public ISort {
 	public:
@@ -22,9 +28,6 @@ namespace sort {
 
 	class quickSort : public ISort {
 	public:
-		void Sort(unique_ptr<Matrix>& );
-		int Partition(unique_ptr<Matrix>&, int, int, int);
-		void QuickSortRecursive(unique_ptr<Matrix>&, int, int, int);
-
+		void Sort(unique_ptr<Matrix>&);
 	};
 }

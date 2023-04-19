@@ -3,41 +3,70 @@
 
 using namespace sort;
 
-void quickSort::Sort(unique_ptr<Matrix>& matrix) {
-    int rows = matrix->getRows();
-    for (int i = 0; i < rows; i++) {
-        QuickSortRecursive(matrix, 0, matrix->getColumn() - 1, i);
-    }
-}
-
-void quickSort::QuickSortRecursive(unique_ptr<Matrix>& matrix, int left, int right, int row) {
-    if (left >= right) {
-        return;
-    }
-    // Находим первый четный элемент в подмассиве
-    int firstEvenIndex = left;
-    while (firstEvenIndex <= right && matrix->getElement(row, firstEvenIndex) % 2 != 0) {
-        firstEvenIndex++;
-    }
-    if (firstEvenIndex > right) {
-        return; // Если в подмассиве нет четных элементов, то подмассив уже отсортирован
-    }
-    int pivotIndex = firstEvenIndex;
-    int pivotValue = matrix->getElement(row, pivotIndex);
-    // Проходим по подмассиву и перемещаем все четные элементы в левую часть, а нечетные - в правую часть
-    for (int j = firstEvenIndex + 1; j <= right; j++) {
-        IncrementComparisonCountInThread(); // Увеличиваем счетчик сравнений в текущем потоке
-        int currentValue = matrix->getElement(row, j);
-        if (possibleSort(currentValue) && currentValue < pivotValue) {
-            pivotIndex++;
-            matrix->swapElements(row, pivotIndex, row, j);
-            IncrementSwapCountInThread(); // Увеличиваем счетчик перестановок в текущем потоке
+pair<int, int> quickSorting(vector<int>& row, int left, int right) {
+    int i = left, j = right;
+    pair<int, int> counts;
+    int pivot = row[(left + right) / 2];
+    while (i <= j) {
+        while (row[i] < pivot) {
+            counts.second++;
+            i++;
+        }
+        while (row[j] > pivot) {
+            counts.second++;
+            j--;
+        }
+        if (i <= j) {
+            swap(row[i], row[j]);
+            counts.first++;
+            i++;
+            j--;
         }
     }
-    // Перемещаем опорный элемент на место, где заканчивается левая часть массива с четными элементами
-    matrix->swapElements(row, pivotIndex, row, left + pivotIndex - firstEvenIndex);
-    IncrementSwapCountInThread(); // Увеличиваем счетчик перестановок в текущем потоке
-    // Рекурсивно вызываем QuickSortRecursive для левой и правой частей массива
-    QuickSortRecursive(matrix, left, left + pivotIndex - firstEvenIndex - 1, row);
-    QuickSortRecursive(matrix, left + pivotIndex - firstEvenIndex + 1, right, row);
+    if (left < j) {
+        auto sub_counts = quickSorting(row, left, j);
+        counts.first += sub_counts.first;
+        counts.second += sub_counts.second;
+    }
+    if (i < right) {
+        auto sub_counts = quickSorting(row, i, right);
+        counts.first += sub_counts.first;
+        counts.second += sub_counts.second;
+    }
+    return counts;
+}
+
+
+void quickSort::Sort(unique_ptr<Matrix>& matrix) {
+    int rows = matrix->getRows();
+    int column = matrix->getColumn();
+    vector<int> row{};
+    vector<pair<int, int>> countsVector;
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < column; j++) {
+            int element = matrix->getElement(i, j);
+            if (possibleSort(element)) {
+                row.push_back(element);
+            }
+        }
+        pair<int, int> counts = quickSorting(row, 0, static_cast<int>(row.size()) - 1);
+        countsVector.push_back(counts);
+        int iter = 0;
+        for (int j = 0; j < column; j++) {
+            int element = matrix->getElement(i, j);
+            if (possibleSort(element)) {
+                matrix->setElement(i, j, row[iter]);
+                iter++;
+            }
+        }
+        row.clear();
+    }
+    int totalSwaps = 0;
+    int totalComparisons = 0;
+    for (const auto& counts : countsVector) {
+        totalSwaps += counts.first;
+        totalComparisons += counts.second;
+    }
+    ISort::SetIncrementSwapCount(totalSwaps);
+    ISort::SetIncrementComparisonCount(totalComparisons);
 }

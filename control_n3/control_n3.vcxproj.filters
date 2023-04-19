@@ -19,9 +19,6 @@
     <Filter Include="Исходные файлы\object">
       <UniqueIdentifier>{9c8ce0c9-232f-4fd4-b728-bb9a92f32788}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\ui">
-      <UniqueIdentifier>{f761ca50-671c-4bc3-b03e-c5775a8d6178}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Файлы заголовков\ui">
       <UniqueIdentifier>{e487278e-c5c4-4ef3-9b34-78d10307376e}</UniqueIdentifier>
     </Filter>
@@ -36,6 +33,15 @@
     </Filter>
     <Filter Include="Исходные файлы\test">
       <UniqueIdentifier>{22f7416b-82e0-4733-9da6-0ff285ebf34c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\ui">
+      <UniqueIdentifier>{f761ca50-671c-4bc3-b03e-c5775a8d6178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\ui\control">
+      <UniqueIdentifier>{ad28c2ed-27cd-4a8b-b074-8532d758cbe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\ui\filling_db">
+      <UniqueIdentifier>{6191f77b-41d5-458f-b2b4-949040fb239b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -57,20 +63,29 @@
     <ClCompile Include="matrix.cpp">
       <Filter>Исходные файлы\object</Filter>
     </ClCompile>
-    <ClCompile Include="inOutConsole.cpp">
-      <Filter>Исходные файлы\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="correctness.cpp">
-      <Filter>Исходные файлы\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="fileReader.cpp">
-      <Filter>Исходные файлы\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="fillingRandom.cpp">
-      <Filter>Исходные файлы\ui</Filter>
-    </ClCompile>
     <ClCompile Include="test.cpp">
       <Filter>Исходные файлы\test</Filter>
+    </ClCompile>
+    <ClCompile Include="controlSort.cpp">
+      <Filter>Исходные файлы\ui\control</Filter>
+    </ClCompile>
+    <ClCompile Include="loopedMenu.cpp">
+      <Filter>Исходные файлы\ui\control</Filter>
+    </ClCompile>
+    <ClCompile Include="correctness.cpp">
+      <Filter>Исходные файлы\ui\control</Filter>
+    </ClCompile>
+    <ClCompile Include="fileReader.cpp">
+      <Filter>Исходные файлы\ui\filling_db</Filter>
+    </ClCompile>
+    <ClCompile Include="fillingRandom.cpp">
+      <Filter>Исходные файлы\ui\filling_db</Filter>
+    </ClCompile>
+    <ClCompile Include="inOutConsole.cpp">
+      <Filter>Исходные файлы\ui\filling_db</Filter>
+    </ClCompile>
+    <ClCompile Include="ISort.cpp">
+      <Filter>Исходные файлы\sorting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

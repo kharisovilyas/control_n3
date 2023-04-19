@@ -10,42 +10,31 @@ class ISort {
 protected:
     virtual void Sort(unique_ptr<Matrix>&) = 0;
 public:
-    void IncrementComparisonCount() {
-        comparisonCount++;
+    void SetIncrementComparisonCount(int comprasions) {
+        comparisonCount = comprasions;
     }
 
-    void IncrementSwapCount() {
-        swapCount++;
-    }
-
-    void IncrementComparisonCountInThread() {
-        lock_guard<mutex> lock(mutex_);
-        comparisonCountInThread++;
-    }
-
-    void IncrementSwapCountInThread() {
-        lock_guard<mutex> lock(mutex_);
-        swapCountInThread++;
+    void SetIncrementSwapCount(int swaps) {
+        swapCount = swaps;
     }
 
     int GetComparisonCount() const {
-        return comparisonCount.load() + comparisonCountInThread.load();
+        return comparisonCount;
     }
 
     int GetSwapCount() const {
-        return swapCount.load() + swapCountInThread.load();
+        return swapCount;
     }
 
     bool possibleSort(int num) {
         return num % 2 == 0;
     }
 
+    void sortPossible(unique_ptr<Matrix>&, void (*function)(vector<int>&, pair<int, int>&));
+
     virtual ~ISort() {} 
 
 private:
-    atomic<int> comparisonCount = 0;
-    atomic<int> swapCount = 0;
-    atomic<int> comparisonCountInThread = 0;
-    atomic<int> swapCountInThread = 0;
-    mutex mutex_{};
+    int comparisonCount = 0;
+    int swapCount = 0;
 };

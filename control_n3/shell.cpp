@@ -3,26 +3,27 @@
 
 using namespace sort;
 
+void sortRowByShell(vector<int>& row, pair<int, int>& counts) {
+    int n = static_cast<int> (row.size());
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < n; i++) {
+            int temp = row[i];
+            int j;
+            for (j = i; j >= gap && row[j - gap] > temp; j -= gap) {
+                counts.second++;
+                row[j] = row[j - gap];
+                counts.first++;
+            }
+            row[j] = temp;
+            counts.first++;
+        }
+    }
+}
+
+
 void shell::Sort(unique_ptr<Matrix>& matrix) {
     int rows = matrix->getRows();
     int column = matrix->getColumn();
-    for (int i = 0; i < rows; i++) {
-        int gap = column / 2;
-        while (gap > 0) {
-            for (int j = gap; j < column; j++) {
-                int temp = matrix->getElement(i, j);
-                int k = j;
-                while (k >= gap && possibleSort(matrix->getElement(i, k - gap)) &&
-                    (!possibleSort(temp) || matrix->getElement(i, k - gap) > temp)) {
-                    IncrementComparisonCountInThread();
-                    IncrementSwapCountInThread();
-                    matrix->setElement(i, k, matrix->getElement(i, k - gap));
-                    k -= gap;
-                }
-                IncrementComparisonCountInThread();
-                matrix->setElement(i, k, temp);
-            }
-            gap /= 2;
-        }
-    }
+    vector<int> row{};
+    sortPossible(matrix, &sortRowByShell);
 }

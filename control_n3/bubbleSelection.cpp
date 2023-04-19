@@ -5,36 +5,26 @@
 
 using namespace sort;
 
-void bubbleSelection::Sort(unique_ptr<Matrix>& matrix) {
-    int rows = matrix->getRows();
-    int column = matrix->getColumn();
-    for (int i = 0; i < rows; i++) {
-        vector<int> evenElements;
-        // Собираем все четные элементы в строке
-        for (int j = 0; j < column; j++) {
-            if (matrix->getElement(i, j) % 2 == 0) {
-                evenElements.push_back(matrix->getElement(i, j));
-            }
-        }
-        // Сортируем четные элементы методом пузырька
-        for (int j = 0; j < evenElements.size() - 1; j++) {
-            for (int k = 0; k < evenElements.size() - j - 1; k++) {
-                IncrementComparisonCountInThread(); // Увеличиваем счетчик сравнений в текущем потоке
-                if (evenElements[k] > evenElements[k + 1]) {
-                    int temp = evenElements[k];
-                    evenElements[k] = evenElements[k + 1];
-                    evenElements[k + 1] = temp;
-                    IncrementSwapCountInThread(); // Увеличиваем счетчик перестановок в текущем потоке
-                }
-            }
-        }
-        // Заменяем четные элементы в строке на отсортированные
-        int evenIndex = 0;
-        for (int j = 0; j < column; j++) {
-            if (matrix->getElement(i, j) % 2 == 0) {
-                matrix->setElement(i, j, evenElements[evenIndex]);
-                evenIndex++;
+void sortRowByBubble(vector<int>& row, pair<int, int>& counts) {
+    int n = row.size();
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (row[j] > row[j + 1]) {
+                counts.second++;
+                int temp = row[j];
+                row[j] = row[j + 1];
+                counts.first++;
+                row[j + 1] = temp;
+                counts.first++;
             }
         }
     }
+}
+
+
+void bubbleSelection::Sort(unique_ptr<Matrix>& matrix) {
+    int rows = matrix->getRows();
+    int column = matrix->getColumn();
+    vector<int> row{};
+    sortPossible(matrix, &sortRowByBubble);
 }

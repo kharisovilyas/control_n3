@@ -128,11 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bubbleSelection.cpp" />
+    <ClCompile Include="controlSort.cpp" />
     <ClCompile Include="correctness.cpp" />
     <ClCompile Include="fileReader.cpp" />
     <ClCompile Include="fillingRandom.cpp" />
     <ClCompile Include="inOutConsole.cpp" />
     <ClCompile Include="insertion.cpp" />
+    <ClCompile Include="ISort.cpp" />
+    <ClCompile Include="loopedMenu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix.cpp" />
     <ClCompile Include="shell.cpp" />

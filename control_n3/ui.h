@@ -7,6 +7,10 @@
 
 namespace ui {
 
+	class loopedMenu {
+
+	};
+
 	class correctness {
 	public:
 		int getInt();

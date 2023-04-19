@@ -32,16 +32,21 @@ void printInform(string way) {
 }
 
 // Разбиваем строку на подстроки, используя символ ';' в качестве разделителя
-void filling(unique_ptr<Matrix>& matrix, const char* str_ptr, int i) {
+void filling(unique_ptr<Matrix>& matrix, const char* str_ptr, int i, int m) {
 	int j = 0;
 	char* str_copy = new char[strlen(str_ptr) + 1];
 	strcpy_s(str_copy, strlen(str_ptr) + 1, str_ptr);
 	char* context = nullptr;
 	char* token = strtok_s(str_copy, "\t", &context);
-	while (token != nullptr) {
+	for (int j = 0; j < m; j++) {
+		if (token == nullptr) {
+			throw runtime_error("Найден пустой столбец! \nИсправьте файл\n");
+		}
 		matrix->setElement(i, j, stoi(token));
 		token = strtok_s(nullptr, "\t", &context);
-		j++;
+		if (j + 1 > m) {
+			throw runtime_error("Количество столбцов больше чем вы указали !\nИсправьте файл\n");
+		}
 	}
 	delete[] str_copy;
 }
@@ -56,29 +61,29 @@ void fileReader::implFile(unique_ptr<Matrix>& matrix, string name) {
 	if (input.is_open()) {
 		getline(input, data);
 		istringstream iss(data);
-		int a, b;
-		iss >> a >> b;
-		if (a <= 0 || b <= 0) {
-			cout << "Файл содержит неположительные количество строк или столбцов" << endl;
-			throw runtime_error("error");
+		int n = 0, m = 0;
+		iss >> n >> m;
+		if (n <= 0 || m <= 0) {
+			throw runtime_error("Файл содержит неположительные количество строк или столбцов\nИсправьте файл\n");
 		}
+		matrix = make_unique<Matrix>(n, m);
 		while (getline(input, data)) {
 			//продумать сообщение об ошибке при вводе не int 
 			if (data.empty()) {
-				cout << "Ввод данных на " << i + 1 << " строке не был произведен! Исправьте файл и введите данные заново" << endl;
-				i++;
-				continue;
+				throw runtime_error("Найдена пустая строка !\nИсправьте файл\n");
+			}
+			else if (i + 1 > n) {
+				throw runtime_error("Количество строчек больше чем вы указали !\nИсправьте файл\n");
 			}
 			else {
-				filling(matrix, data.c_str(), i);
+				filling(matrix, data.c_str(), i, m);
 			}
 			i++;
 		}
 		input.close();
 	}
 	else {
-		cout << endl << "Файла с таким именем не существует!" << endl << endl;
-		throw runtime_error("error");
+		throw runtime_error("\nФайла с таким именем не существует!\n");
 	}
 }
 
