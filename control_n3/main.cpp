@@ -13,19 +13,25 @@ using namespace sort;
 using namespace std;
 
 enum { start = 1, taskreturn = 0 };
-enum { exitp = 0, rfile = 1, rconsole = 2, random = 3, unitTest = 4 };
+enum { exitp = 0, rfile = 1, rconsole = 2, random = 3};
 enum { fileOutput = 1, coutput = 2, outreturn = 3 };
 
 
 void printInputWays() {
     cout << "-----..........-----..........-----..........-----" << endl;
-    cout << "Как заполнить данные или может запустить модульные тесты ?" << endl;
+    cout << "Как заполнить данные ?" << endl;
     cout << "Нажмите :" << endl;
     cout << "[1] - чтобы взять данные из файла" << endl;
     cout << "[2] - чтобы ввести данные в консоли" << endl;
     cout << "[3] - чтобы заполнить матрицу случайными значениями" << endl;
-    cout << "[4] - чтобы запустить модульные тесты" << endl;
     cout << "[0] - чтобы выйти из программы" << endl << endl;
+}
+
+void printTestInfo() {
+    cout << "-----..........-----..........-----..........-----" << endl;
+    cout << "Нажмите :" << endl;
+    cout << "[1] - чтобы запустить модульные тесты" << endl;
+    cout << "[0] - чтобы пропустить действие" << endl;
 }
 
 void printAction() {
@@ -45,35 +51,31 @@ void printOutputWays() {
 }
 
 
-void selectInput(int variant, unique_ptr<Matrix>& matrix) {
+StringEnumHelper selectInput(int variant, unique_ptr<Matrix>& matrix) {
     fileReader mReader{};
     correctness check{};
     inOutConsole inOut{};
     fillingRandom fill{};
     test testing{};
+    string result{};
     auto cinBuf = cin.rdbuf();
     switch (variant)
     {
     case rfile:
-        mReader.readFile(matrix, {});
-        break;
+        return mReader.readFile(matrix, {});
     case rconsole:
-        inOut.readConsole(matrix);
-        break;
+        return inOut.readConsole(matrix);
     case random:
-        fill.filling(matrix);
-        break;
-    case unitTest:
-        testing.startTest();
-        cin.rdbuf(cinBuf);
-        break;
+        return fill.filling(matrix);
     case exitp:
         cout << "Вы вышли!" << endl;
-        break;
+        return StringEnumHelper(StringEnum::correct);
+    default:
+        return StringEnumHelper(StringEnum::correct);
     }
 }
 
-void selectOutput(bool needOutconsole, unique_ptr<Matrix>& sortMatrix, map<string, pair<int, int>>& results) {
+void selectOutput(bool needOutconsole, unique_ptr<Matrix>& oldMatrix, unique_ptr<Matrix>& sortMatrix, map<string, pair<int, int>>& results) {
     correctness check{};
     inOutConsole cInOut{};
     fileReader mReader{};
@@ -81,58 +83,51 @@ void selectOutput(bool needOutconsole, unique_ptr<Matrix>& sortMatrix, map<strin
         cInOut.outConsole(sortMatrix, results);
     }
     else {
-        mReader.fillFile(sortMatrix, results);
+        mReader.implFillFile(oldMatrix, sortMatrix, results);
     }
 }
 
 void launchMenu() {
     correctness check{};
     controlSort control{};
+    test unitTest;
+    string resultInput{};
+    string resultInputCorrect = static_cast<string>(StringEnumHelper(StringEnum::correct));
     int variant = 0;
     bool isStart{};
     bool outConsole{};
-    int boardMenu = unitTest;
+    bool startUnitTest{};
+    int boardMenu = random;
     unique_ptr<Matrix> matrix;
     unique_ptr<Matrix> sortMatrix;
     map<string, pair<int,int>> results;
     do
     {
-        printInputWays();
-        variant = check.getMenuVar(exitp, unitTest);
-        try {
-            selectInput(variant, matrix);
-        }
-        catch (const exception& e) {
-            cout << e.what() << endl;
-            continue;
-        }
-        if (variant == exitp) break;
-        if (variant == unitTest) continue;
+        printTestInfo();
+        startUnitTest = check.getBool();
+        if (startUnitTest) unitTest.startTest();
 
-        //вывод исходной матрицы
+        printInputWays();
+        variant = check.getMenuVar(exitp, boardMenu);
+        if (variant == exitp) {
+            cout << "Вы вышли!" << endl;
+            break;
+        }
+        resultInput = static_cast<string>(selectInput(variant, matrix));
+        cout << endl << resultInput << endl;
+        if (resultInput != resultInputCorrect) continue;
+
         inOutConsole out{};
         out.outConsole(matrix);
 
         printAction();
         isStart = check.getBool();
         if (!isStart) continue;
-        try {
-            control.startSort(matrix, sortMatrix, results);
-        }
-        catch (const exception& e) {
-            cout << e.what() << endl;
-            continue;
-        }
-
+        control.startSort(matrix, sortMatrix, results);
         printOutputWays();
         outConsole = check.getBool();
-        try {
-            selectOutput(outConsole, sortMatrix, results);
-        }
-        catch (const exception& e) {
-            cout << e.what() << endl;
-            continue;
-        }
+        selectOutput(outConsole, matrix, sortMatrix, results);
+
     } while (variant != exitp);
 }
 

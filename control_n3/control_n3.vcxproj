@@ -135,7 +135,6 @@
     <ClCompile Include="inOutConsole.cpp" />
     <ClCompile Include="insertion.cpp" />
     <ClCompile Include="ISort.cpp" />
-    <ClCompile Include="loopedMenu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix.cpp" />
     <ClCompile Include="shell.cpp" />
@@ -146,6 +145,7 @@
     <ClInclude Include="ISort.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="sort.h" />
+    <ClInclude Include="stringEnum.h" />
     <ClInclude Include="test.h" />
     <ClInclude Include="ui.h" />
   </ItemGroup>

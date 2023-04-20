@@ -6,25 +6,10 @@ using namespace ui;
 using namespace std;
 
 
-void printInformOut() {
-	cout << "Вам предлагается ввести исходные данные в файл" << endl;
-	cout << "Используйте пункты меню для навигации в программе, нажмите :" << endl;
-	cout << "[1] - Записать" << endl;
-	cout << "[0] - Не записывать и продолжить выполнение программы" << endl;
-}
 
-void outInitialDataInFile(unique_ptr<Matrix>& matrix) {
+StringEnumHelper inOutConsole::readConsole(unique_ptr<Matrix>& matrix) {
 	correctness check{};
-	fileReader fr;
-	printInformOut();
-	bool variant = check.getBool();
-	if (variant == 0) return;
-	fr.fillFile(matrix);
-}
-
-
-void inOutConsole::readConsole(unique_ptr<Matrix>& matrix) {
-	correctness check{};
+	fileReader toFile{};
 	int n = 0, m = 0;
 	int element;
 	cout << "Введите количество строк" << endl;
@@ -39,7 +24,8 @@ void inOutConsole::readConsole(unique_ptr<Matrix>& matrix) {
 			matrix->setElement(i, j, element);
 		}
 	}
-	outInitialDataInFile(matrix);
+	toFile.outInitialDataInFile(matrix);
+	return StringEnumHelper(StringEnum::correct);
 }
 
 void inOutConsole::outConsole(unique_ptr<Matrix>& matrix) const {
@@ -54,7 +40,7 @@ void inOutConsole::outConsole(unique_ptr<Matrix>& matrix) const {
 
 
 void inOutConsole::outConsole(unique_ptr<Matrix>& matrix, map<string, pair<int, int>>& results) const{
-	cout << "Ваша матрица [" << matrix->getRows() << "]x[" << matrix->getColumn() << "] элементов: " << endl;
+	cout << "Ваша отсортированная матрица [" << matrix->getRows() << "]x[" << matrix->getColumn() << "] элементов: " << endl;
 	for (int i = 0; i < matrix->getRows(); i++) {
 		for (int j = 0; j < matrix->getColumn(); j++) {
 			cout << matrix->getElement(i, j) << "\t";

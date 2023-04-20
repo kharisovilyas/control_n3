@@ -5,8 +5,9 @@
 
 using namespace ui;
 
-void fillingRandom::filling(unique_ptr<Matrix>& matrix) {
+StringEnumHelper fillingRandom::filling(unique_ptr<Matrix>& matrix) {
 	correctness check{};
+	fileReader toFile{};
 	cout << "¬ведите количество строк" << endl;
 	int n = 0, m = 0;
 	n = check.getIntField();
@@ -21,4 +22,6 @@ void fillingRandom::filling(unique_ptr<Matrix>& matrix) {
 			matrix->setElement(i, j, element);
 		}
 	}
+	toFile.outInitialDataInFile(matrix);
+	return StringEnumHelper(StringEnum::correct);
 }

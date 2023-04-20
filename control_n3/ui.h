@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include "matrix.h"
+#include "stringEnum.h"
 
 namespace ui {
 
@@ -23,21 +24,23 @@ namespace ui {
 
 	class inOutConsole {
 	public:
-		void readConsole(unique_ptr<Matrix>&);
+		StringEnumHelper readConsole(unique_ptr<Matrix>&);
 		void outConsole(unique_ptr<Matrix>&, map<string, pair<int, int>>&) const;
 		void outConsole(unique_ptr<Matrix>&) const;
 	};
 
 	class fileReader {
 	public:
-		void readFile(unique_ptr<Matrix>&, string);
-		void fillFile(unique_ptr<Matrix>&, map<string, pair<int, int>>&) const;
-		void fillFile(unique_ptr<Matrix>&) const;
-		void implFile(unique_ptr<Matrix>&, string);
+		StringEnumHelper readFile(unique_ptr<Matrix>&, string);
+		StringEnumHelper implFile(unique_ptr<Matrix>&, string);
+		void implFile(unique_ptr<Matrix>& matrix, string name, unique_ptr<Matrix>& sortMatrix);
+		void implFillFile(unique_ptr<Matrix>&, unique_ptr<Matrix>&, map<string, pair<int, int>>&) const;
+		void implFillFile(unique_ptr<Matrix>&) const;
+		void outInitialDataInFile(unique_ptr<Matrix>& ) const;
 	};
 
 	class fillingRandom {
 	public:
-		void filling(unique_ptr<Matrix>&);
+		StringEnumHelper filling(unique_ptr<Matrix>&);
 	};
 }
